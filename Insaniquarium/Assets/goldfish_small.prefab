@@ -37,7 +37,7 @@ Transform:
   m_GameObject: {fileID: 1720628403163788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.52, y: 0.45, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -72,15 +72,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  minX: -9
-  maxX: 9
-  minY: 0
-  maxY: 0
+  minX: -6
+  maxX: 6
+  minY: -3.8
+  maxY: 3.4
   turning: 0
+  falling: 0
   left: 1
   right: 0
   anim: {fileID: 0}
   gotoPosition: {x: 0, y: 0}
+  speedY: 0
 --- !u!212 &212657625649622816
 SpriteRenderer:
   m_ObjectHideFlags: 1
