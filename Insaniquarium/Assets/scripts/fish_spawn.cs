@@ -21,7 +21,8 @@ public class fish_spawn : MonoBehaviour {
     {
         Vector2 spawnPosition = new Vector2(Random.Range(minX, maxX), 5.5f);
         GameObject fish = Instantiate(smallFish, spawnPosition, Quaternion.Euler(0, 0, 0)) as GameObject;
-        fish.GetComponent<fish_movement>().fall();
+        fish.GetComponent<fish_movement2>().fall();
+        fish.GetComponent<guppy_sound>().playSplashSound();
 
 
     }

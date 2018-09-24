@@ -13,7 +13,7 @@ public class fish_movement : MonoBehaviour {
 
     public Vector2 gotoPosition;
     public float speedY;
-
+    public float gotoSpeed;
 
     float fallSpeed = 0;
 
@@ -29,19 +29,19 @@ public class fish_movement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+
+        if (speed <= gotoSpeed)
+        {
+            speed += 0.05f;
+        }
+
         if (fallSpeed>0)
         {
             fallSpeed -= 0.1f;
             this.transform.Translate(Vector2.down * fallSpeed * Time.deltaTime);
         }
         else
-        {
-
-            if (speed > 0.2f)
-            {
-                speed -= 0.01f;
-            }
-
+        { 
             if (this.transform.position.y <= gotoPosition.y + 0.1f && this.transform.position.y >= gotoPosition.y - 0.1f)
             {
                 gotoPosition.y = Random.Range(minY, maxY);
@@ -63,12 +63,18 @@ public class fish_movement : MonoBehaviour {
 
             if (right)
             {
-                //this.transform.Translate(Vector2.right * speed * Time.deltaTime);
-                //transform.position = Vector3.Slerp(this.transform.position, new Vector2(gotoPosition.x, this.transform.position.y), 2);
-                transform.position = Vector3.Slerp(new Vector2(gotoPosition.x, this.transform.position.y), this.transform.position, 2);
+                if (this.transform.position.x > gotoPosition.x - speed && speed > 0.5f)
+                {
+                    speed -= 0.05f;
+                }
+                this.transform.Translate(Vector2.right * speed * Time.deltaTime);
             }
             else if (left)
             {
+                if (this.transform.position.x < gotoPosition.x + speed && speed > 0.2f)
+                {
+                    speed -= 0.05f;
+                }
                 this.transform.Translate(Vector2.left * speed * Time.deltaTime);
             }
 
@@ -140,6 +146,8 @@ public class fish_movement : MonoBehaviour {
             this.transform.localScale = new Vector2(-this.transform.localScale.x, this.transform.localScale.y);
         }
 
+        gotoSpeed = speed;
+        speed = 0;
         speedY = Random.Range(0.1f, 1);
         anim.SetBool("turn", false);
         int newSpeed = Random.Range(1, 4);
