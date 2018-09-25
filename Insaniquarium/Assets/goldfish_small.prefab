@@ -30,7 +30,7 @@ GameObject:
   - component: {fileID: 50446673299556978}
   m_Layer: 0
   m_Name: goldfish_small
-  m_TagString: Untagged
+  m_TagString: guppy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +43,7 @@ Transform:
   m_GameObject: {fileID: 1720628403163788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.52, y: 0.45, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -80,7 +80,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.02990508, y: 0.005980909}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -91,7 +91,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.32, y: 0.31}
+  m_Size: {x: 0.03291225, y: 0.03487408}
   m_EdgeRadius: 0
 --- !u!82 &82407125843874796
 AudioSource:
@@ -226,8 +226,11 @@ MonoBehaviour:
   minY: 0
   maxY: 0
   fallSpeed: 0
+  accelerateToFoodSpeed: 0.1
+  maxSpeedToFood: 5
   moveForMin: 1
   moveForMax: 10
+  closestFood: {fileID: 0}
   boundaryX: {x: 0, y: 0}
   boundaryY: {x: 0, y: 0}
   moveForTime: 1
@@ -235,6 +238,7 @@ MonoBehaviour:
   moveRight: 0
   moveLeft: 1
   turning: 0
+  lookedForFood: 0
   onEdge: 0
 --- !u!114 &114234371355099738
 MonoBehaviour:
@@ -251,7 +255,9 @@ MonoBehaviour:
   guppy_Sound: {fileID: 0}
   dead: 0
   hungry: 1
+  becameHungry: 0
   minY: -4
+  foodEaten: 0
   console: {fileID: 0}
 --- !u!114 &114506330514484794
 MonoBehaviour:
@@ -267,6 +273,7 @@ MonoBehaviour:
   splashSound: {fileID: 8300000, guid: 63c0c07bae49afb4d8d93df99003daaa, type: 3}
   roarSound: {fileID: 8300000, guid: 54c6cd45697126447b2a45ff346535fe, type: 3}
   dieSound: {fileID: 8300000, guid: b7ff83137825a4848a098d20784bc937, type: 3}
+  slurpSound: {fileID: 8300000, guid: 32f139202566ca94da9f89038b175b50, type: 3}
   audioSource: {fileID: 82407125843874796}
 --- !u!114 &114640563488876206
 MonoBehaviour:

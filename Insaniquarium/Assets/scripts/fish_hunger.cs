@@ -7,8 +7,9 @@ public class fish_hunger : MonoBehaviour {
     float hungerTimer;
     public Color hungryColor;
     public guppy_sound guppy_Sound;
-    public bool dead = false, hungry=true;
+    public bool dead = false, hungry = true, becameHungry = false;
     public float minY;
+    public int foodEaten = 0;
 
     public GameObject console;
 
@@ -24,13 +25,21 @@ public class fish_hunger : MonoBehaviour {
 	void Update () {
         hungerTimer -= Time.deltaTime;
 
-        if (hungry)
+        if (hungry && !dead)
         {
-            GameObject[] food = GameObject.FindGameObjectsWithTag("food");
-            if (food.Length > 0)
+            this.GetComponent<SpriteRenderer>().color = Color.green;
+            if (!becameHungry)
             {
-                GameObject closest = food[0];
-                
+                this.GetComponent<fish_movement2>().accelerateToFoodSpeed = this.GetComponent<fish_movement2>().speedX;
+                becameHungry = true;
+            }
+        }
+        else
+        {
+            becameHungry = false;
+            if (!dead)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
 
@@ -82,27 +91,37 @@ public class fish_hunger : MonoBehaviour {
 
     public void eat()
     {
+        //TODO GET FOODS VALUES
+        foodEaten++;
+
+        if (foodEaten % 2 == 0)
+        {
+            Vector2 scale = this.transform.localScale;
+            scale.x += 1;
+            scale.y += 1;
+            this.transform.localScale = scale;
+        }
+
         hungerTimer = 10;
+        this.GetComponent<fish_movement2>().findClosestFood();
+    }
+
+    public void finishEating()
+    {
+        this.GetComponent<Animator>().SetBool("eat", false);
     }
 
     public void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "food")
+        if (col.gameObject.tag == "food" && hungry)
         {
+            this.GetComponent<guppy_sound>().playSlurpSound();
+            this.GetComponent<Animator>().SetBool("eat", true);
+            Invoke("finishEating", 0.3f);
+
             console.GetComponent<food_spawn>().currentFoodCount--;
             Destroy(col.gameObject);
             eat();
-
-            fish_movement2 m = this.GetComponent<fish_movement2>();
-            int direction = Random.Range(0, 2);
-            if (direction == 0)
-            {
-                m.goLeft();
-            }
-            else if (direction == 1)
-            {
-                m.goRight();
-            }
         }
     }
 }

@@ -7,6 +7,7 @@ public class guppy_sound : MonoBehaviour {
     public AudioClip splashSound;
     public AudioClip roarSound;
     public AudioClip dieSound;
+    public AudioClip slurpSound;
 
     public AudioSource audioSource;
 
@@ -14,11 +15,12 @@ public class guppy_sound : MonoBehaviour {
     void Start () {
         audioSource.GetComponent<AudioSource>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
 
-	}
+    public void playSlurpSound()
+    {
+        audioSource.clip = slurpSound;
+        audioSource.Play();
+    }
 
     public void playSplashSound()
     {

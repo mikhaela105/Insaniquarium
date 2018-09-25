@@ -5,9 +5,13 @@ using UnityEngine;
 public class fish_movement2 : MonoBehaviour {
 
     public float speedX, speedXMax, acceleration;
-    public float speedY, minX, maxX, minY, maxY, fallSpeed;
+    public float speedY, minX, maxX, minY, maxY, fallSpeed, accelerateToFoodSpeed, maxSpeedToFood;
 
     public float moveForMin, moveForMax;
+
+    public GameObject closestFood;
+
+
 
     public Vector2 boundaryX;
     public Vector2 boundaryY;
@@ -17,16 +21,47 @@ public class fish_movement2 : MonoBehaviour {
     public Animator animator;
 
     public bool moveRight, moveLeft=true;
-    public bool turning = false;
+    public bool turning = false, lookedForFood = false;
     public bool onEdge = false;
 
 	// Use this for initialization
 	void Start () {
         animator = this.GetComponent<Animator>();
+        findClosestFood();
 	}
 	
+    public void findClosestFood()
+    {
+        GameObject prevFood = closestFood;
+        GameObject[] food = GameObject.FindGameObjectsWithTag("food");
+        if (food.Length > 0)
+        {
+            float shortestDistance = Vector2.Distance(this.transform.position, food[0].transform.position);
+            closestFood = food[0];
+            for (int i = 1; i < food.Length; i++)
+            {
+                float dist = Vector2.Distance(this.transform.position, food[i].transform.position);
+                if (dist < shortestDistance)
+                {
+                    shortestDistance = dist;
+                    closestFood = food[i];
+                }
+            }
+        }
+        if (closestFood != prevFood)
+        {
+            accelerateToFoodSpeed = speedX;
+        }
+    }
+
 	// Update is called once per frame
 	void Update () {
+
+        if (closestFood == null && !lookedForFood)
+        {
+            findClosestFood();
+            lookedForFood = true;
+        }
 
         if (fallSpeed > 0)
         {
@@ -38,32 +73,42 @@ public class fish_movement2 : MonoBehaviour {
         {
 
         }
-        if (this.GetComponent<fish_hunger>().hungry)
-        {
-            GameObject[] food = GameObject.FindGameObjectsWithTag("food");
-            if (food.Length > 0)
-            {
-                GameObject closest = food[0];
-                if (closest.transform.position.x < this.transform.position.x && moveRight)
-                {
-                    turn();
-                }
-                if (closest.transform.position.x > this.transform.position.x && moveLeft)
-                {
-                    turn();
-                }
-                transform.position = Vector2.MoveTowards(new Vector2(transform.position.x, transform.position.y), closest.transform.position, 3 * Time.deltaTime);
-            }
-        }
         else { //moving
 
-            if (moveForTime <= 1)
+            if (this.GetComponent<fish_hunger>().hungry)
             {
-                speedX -= acceleration;
+                GameObject[] food = GameObject.FindGameObjectsWithTag("food");
+                if (closestFood!=null)
+                {
+                    lookedForFood = false;
+                    if (closestFood.transform.position.x + 0.1f < this.transform.position.x && moveRight)
+                    {
+                        goLeft();
+                    }
+                    if (closestFood.transform.position.x - 0.1f > this.transform.position.x && moveLeft)
+                    {
+                        goRight();
+                    }
+
+                    if (accelerateToFoodSpeed < maxSpeedToFood)
+                    {
+                        accelerateToFoodSpeed += 0.05f;
+                    }
+                    transform.position = Vector2.MoveTowards(new Vector2(transform.position.x, transform.position.y), closestFood.transform.position, accelerateToFoodSpeed * Time.deltaTime);
+                }
             }
-            else if (speedX < speedXMax)
+            else
             {
-                speedX += acceleration;
+                moveForTime -= Time.deltaTime;
+
+                if (moveForTime <= 1)
+                {
+                    speedX -= acceleration;
+                }
+                else if (speedX < speedXMax)
+                {
+                    speedX += acceleration;
+                }
             }
 
             if (moveRight)
@@ -91,7 +136,6 @@ public class fish_movement2 : MonoBehaviour {
                 }
             }
 
-            moveForTime -= Time.deltaTime;
             if (moveForTime <= 0)
             {
                 if (onEdge)
@@ -128,7 +172,7 @@ public class fish_movement2 : MonoBehaviour {
     public void goRight()
     {
         speedX = 0;
-        speedXMax = Random.Range(0.1f, 4);
+        speedXMax = Random.Range(0.1f, 2);
         if (moveLeft)
         {
             StartCoroutine(turn());
@@ -140,7 +184,7 @@ public class fish_movement2 : MonoBehaviour {
     public void goLeft()
     {
         speedX = 0;
-        speedXMax = Random.Range(0.1f, 4);
+        speedXMax = Random.Range(0.1f, 2);
         if (moveRight)
         {
             StartCoroutine(turn());

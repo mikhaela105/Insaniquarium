@@ -6,6 +6,7 @@ TagManager:
   tags:
   - console
   - food
+  - guppy
   layers:
   - Default
   - TransparentFX
