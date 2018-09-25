@@ -34,11 +34,28 @@ public class fish_movement2 : MonoBehaviour {
             this.transform.Translate(Vector2.down * fallSpeed * Time.deltaTime);
             return;
         }
-
-        if (turning)
+        else if (turning)
         {
 
-        }else { //moving
+        }
+        if (this.GetComponent<fish_hunger>().hungry)
+        {
+            GameObject[] food = GameObject.FindGameObjectsWithTag("food");
+            if (food.Length > 0)
+            {
+                GameObject closest = food[0];
+                if (closest.transform.position.x < this.transform.position.x && moveRight)
+                {
+                    turn();
+                }
+                if (closest.transform.position.x > this.transform.position.x && moveLeft)
+                {
+                    turn();
+                }
+                transform.position = Vector2.MoveTowards(new Vector2(transform.position.x, transform.position.y), closest.transform.position, 3 * Time.deltaTime);
+            }
+        }
+        else { //moving
 
             if (moveForTime <= 1)
             {
@@ -146,4 +163,6 @@ public class fish_movement2 : MonoBehaviour {
     {
         fallSpeed = Random.RandomRange(4f, 11f);
     }
+
+    
 }
