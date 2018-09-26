@@ -7,7 +7,8 @@ public class fish_hunger : MonoBehaviour {
     float hungerTimer;
     public Color hungryColor;
     public guppy_sound guppy_Sound;
-    public bool dead = false, hungry = true, becameHungry = false;
+    public fish_stats stats;
+    public bool dead = false, hungry = true, becameHungry = false,testEat=false;
     public float minY;
     public int foodEaten = 0;
 
@@ -19,11 +20,18 @@ public class fish_hunger : MonoBehaviour {
         hungerTimer = 10;
         guppy_Sound = this.GetComponent<guppy_sound>();
         console = GameObject.FindGameObjectWithTag("console");
+        stats = this.GetComponent<fish_stats>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         hungerTimer -= Time.deltaTime;
+
+        if (testEat)
+        {
+            eat();
+            testEat = false;
+        }
 
         if (hungry && !dead)
         {
@@ -96,10 +104,7 @@ public class fish_hunger : MonoBehaviour {
 
         if (foodEaten % 2 == 0)
         {
-            Vector2 scale = this.transform.localScale;
-            scale.x += 1;
-            scale.y += 1;
-            this.transform.localScale = scale;
+            stats.grow();
         }
 
         hungerTimer = 10;

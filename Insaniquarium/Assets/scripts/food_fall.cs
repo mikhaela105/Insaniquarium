@@ -6,6 +6,8 @@ public class food_fall : MonoBehaviour {
 
     public GameObject console;
     public float minY;
+    public float foodValue;
+
 	// Use this for initialization
 	void Start () {
         console = GameObject.FindGameObjectWithTag("console");

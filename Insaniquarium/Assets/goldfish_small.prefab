@@ -24,10 +24,10 @@ GameObject:
   - component: {fileID: 114506330514484794}
   - component: {fileID: 114081679725100570}
   - component: {fileID: 114234371355099738}
-  - component: {fileID: 114640563488876206}
   - component: {fileID: 82407125843874796}
   - component: {fileID: 61407184574223506}
   - component: {fileID: 50446673299556978}
+  - component: {fileID: 114674883617079426}
   m_Layer: 0
   m_Name: goldfish_small
   m_TagString: guppy
@@ -253,9 +253,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hungryColor: {r: 0.5325051, g: 0.9433962, b: 0.52954787, a: 0}
   guppy_Sound: {fileID: 0}
+  stats: {fileID: 0}
   dead: 0
   hungry: 1
   becameHungry: 0
+  testEat: 0
   minY: -4
   foodEaten: 0
   console: {fileID: 0}
@@ -275,30 +277,26 @@ MonoBehaviour:
   dieSound: {fileID: 8300000, guid: b7ff83137825a4848a098d20784bc937, type: 3}
   slurpSound: {fileID: 8300000, guid: 32f139202566ca94da9f89038b175b50, type: 3}
   audioSource: {fileID: 82407125843874796}
---- !u!114 &114640563488876206
+--- !u!114 &114674883617079426
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1720628403163788}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b878d1130668ef241b57c95714c76366, type: 3}
+  m_Script: {fileID: 11500000, guid: c4979993b4ddd694fb6548a8452a1b00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  minX: -6
-  maxX: 6
-  minY: -3.8
-  maxY: 3.4
-  turning: 0
-  falling: 0
-  left: 1
-  right: 0
+  kingFish: 0
+  bigFish: 0
+  medFish: 0
+  smallFish: 1
+  levels:
+  - {fileID: 9100000, guid: 5455e9c5215a37b4db2e6f08549fd07d, type: 2}
+  - {fileID: 9100000, guid: b411b582d63316249bd87dbd86fe5ab2, type: 2}
   anim: {fileID: 0}
-  gotoPosition: {x: 0, y: 0}
-  speedY: 0
-  gotoSpeed: 0
+  level: 0
 --- !u!212 &212657625649622816
 SpriteRenderer:
   m_ObjectHideFlags: 1
